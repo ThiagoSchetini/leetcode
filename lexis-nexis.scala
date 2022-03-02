@@ -90,14 +90,18 @@ def combine(left: Array[String], right: Array[String]): Array[String] = {
 // 5 Top K Frequent
 def topKFrequent(nums: Array[Int], k: Int): Array[Int] = {
 
-	nums
-		.sorted.map((_, 1))
-		.groupBy(_._1)
-		.mapValues((_.reduce((a, b) => (a._1, a._2 + b._2))))
-		.map(calculated => (calculated._2._2, calculated._1))
-		.toList.sorted.reverse.take(k)
-		.map(_._2).toArray
+	// O(1)
+	if(k == nums.length) {
+	  nums
 
+	// O(n)
+	} else {
+	  nums
+		.groupBy(n => n)
+		.mapValues(_.length)
+		.toSeq.sortWith(_._2 > _._2)
+		.take(k).map(_._1).toArray.sorted
+	}
 }
 	
 	
